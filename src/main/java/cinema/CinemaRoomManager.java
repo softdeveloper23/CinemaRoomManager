@@ -20,6 +20,7 @@ public class CinemaRoomManager {
         System.out.println("Enter the number of seats in each row:");
         seats = input.nextInt();
 
+        // Calls a method that prints rows and seats.
         printSeats(rows, seats);
 
         System.out.println();
@@ -32,32 +33,17 @@ public class CinemaRoomManager {
         System.out.println("Enter a seat number in that row:");
         seatNumber = input.nextInt();
 
+        // Calls a method that determines the price of tickets.
         determineTicketPrice(rowNumber);
 
-        // Print seat arrangement with bought seats(s).
-        System.out.println("Cinema:");
-        // Print seat numbers.
-        System.out.print(" ");
-        for (int i = 1; i <= seats; i++) {
-            System.out.print(" " + i);
-        }
-        // Print rows.
         System.out.println();
-        for (int i = 0; i < rows; i++) {
-            System.out.print(i + 1 + " ");
-            // Print seats in each row.
-            for (int j = 0; j < seats; j++) {
-                // Determine if seat is bought (B) or not (S).
-                if (rowNumber == (i + 1) && seatNumber == (j + 1)) {
-                    System.out.print("B ");
-                } else {
-                    System.out.print("S ");
-                }
-            }
-            System.out.println();
-        }
 
-        // Call method to determine total income.
+        // Calls a method that prints the rows and seats including the purchased seat(s).
+        printSeatsBought(rows, seats, rowNumber, seatNumber);
+
+        System.out.println();
+
+        // Calls method to determine total income.
         totalIncome = findTotalIncome(rows, seats);
 
         // Print total income.
@@ -88,6 +74,31 @@ public class CinemaRoomManager {
             System.out.print(i + 1 + " ");
             for (int j = 0; j < seats; j++) {
                 System.out.print("S ");
+            }
+            System.out.println();
+        }
+    }
+    // A method that prints the seating arrangement with purchased seats.
+    public static void printSeatsBought(int rows, int seats, int rowNumber, int seatNumber) {
+        // Print seat arrangement with bought seats(s).
+        System.out.println("Cinema:");
+        // Print seat numbers.
+        System.out.print(" ");
+        for (int i = 1; i <= seats; i++) {
+            System.out.print(" " + i);
+        }
+        // Print rows.
+        System.out.println();
+        for (int i = 0; i < rows; i++) {
+            System.out.print(i + 1 + " ");
+            // Print seats in each row.
+            for (int j = 0; j < seats; j++) {
+                // Determine if seat is bought (B) or not (S).
+                if (rowNumber == (i + 1) && seatNumber == (j + 1)) {
+                    System.out.print("B ");
+                } else {
+                    System.out.print("S ");
+                }
             }
             System.out.println();
         }
