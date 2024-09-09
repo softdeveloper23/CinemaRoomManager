@@ -14,22 +14,28 @@ public class CinemaRoomManager {
         int seatsFront;
         int seatsBack;
 
-        // Print seat arrangement.
-        System.out.println("Cinema:");
-        System.out.println("  1 2 3 4 5 6 7 8");
-        System.out.println("1 S S S S S S S S");
-        System.out.println("2 S S S S S S S S");
-        System.out.println("3 S S S S S S S S");
-        System.out.println("4 S S S S S S S S");
-        System.out.println("5 S S S S S S S S");
-        System.out.println("6 S S S S S S S S");
-        System.out.println("7 S S S S S S S S");
-
         // Read two positive integer numbers that represent the number of rows and seats in each row.
         System.out.println("Enter the number of rows:");
         int rows = input.nextInt();
         System.out.println("Enter the number of seats in each row:");
         int seats = input.nextInt();
+
+        // Print seat arrangement.
+        System.out.println("Cinema:");
+        // Print seat numbers.
+        System.out.print(" ");
+        for (int i = 1; i <= seats; i++) {
+            System.out.print(" " + i);
+        }
+        // Print rows
+        System.out.println();
+        for (int i = 0; i < rows; i++) {
+            System.out.print(i + 1 + " ");
+            for (int j = 0; j < seats; j++) {
+                System.out.print("S ");
+            }
+            System.out.println();
+        }
 
         /* Read two integer numbers from the input: a row number and a seat number in that row.
          * These numbers represent the coordinates of the seat according to which the program should print the ticket price.
