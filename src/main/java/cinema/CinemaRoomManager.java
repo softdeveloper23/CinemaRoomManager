@@ -49,6 +49,29 @@ public class CinemaRoomManager {
             System.out.println("Ticket price: $8");
         }
 
+        // Print seat arrangement with bought seats(s).
+        System.out.println("Cinema:");
+        // Print seat numbers.
+        System.out.print(" ");
+        for (int i = 1; i <= seats; i++) {
+            System.out.print(" " + i);
+        }
+        // Print rows.
+        System.out.println();
+        for (int i = 0; i < rows; i++) {
+            System.out.print(i + 1 + " ");
+            // Print seats in each row.
+            for (int j = 0; j < seats; j++) {
+                // Determine if seat is bought (B) or not (S).
+                if (rowNumber == (i + 1) && seatNumber == (j + 1)) {
+                    System.out.print("B ");
+                } else {
+                    System.out.print("S ");
+                }
+            }
+            System.out.println();
+        }
+
         // Call method to determine total income.
         totalIncome = findTotalIncome(rows, seats);
 
