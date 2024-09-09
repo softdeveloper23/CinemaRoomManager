@@ -33,6 +33,8 @@ public class CinemaRoomManager {
             System.out.println();
         }
 
+        System.out.println();
+
         /* Read two integer numbers from the input: a row number and a seat number in that row.
          * These numbers represent the coordinates of the seat according to which the program should print the ticket price.
          */
@@ -41,11 +43,19 @@ public class CinemaRoomManager {
         System.out.println("Enter a seat number in that row:");
         int seatNumber = input.nextInt();
 
+        if (rowNumber <= 4) {
+            System.out.println("Ticket price: $10");
+        } else {
+            System.out.println("Ticket price: $8");
+        }
+
+        // Call method to determine total income.
         totalIncome = findTotalIncome(rows, seats);
+
         // Print total income.
         System.out.println("Total income:\n$" + totalIncome);
     }
-
+    // A method that determines the regular and discounted prices for tickets and figures out the total income.
     public static int findTotalIncome(int rows, int seats) {
         // Determine if rows are greater than 4 to apply seat discount.
         int totalIncome;
