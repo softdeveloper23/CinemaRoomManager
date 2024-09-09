@@ -9,29 +9,18 @@ public class CinemaRoomManager {
         Scanner input = new Scanner(System.in);
         // Declare variables.
         int totalIncome = 0;
+        int rows;
+        int seats;
+        int rowNumber;
+        int seatNumber;
 
         // Read two positive integer numbers that represent the number of rows and seats in each row.
         System.out.println("Enter the number of rows:");
-        int rows = input.nextInt();
+        rows = input.nextInt();
         System.out.println("Enter the number of seats in each row:");
-        int seats = input.nextInt();
+        seats = input.nextInt();
 
-        // Print seat arrangement.
-        System.out.println("Cinema:");
-        // Print seat numbers.
-        System.out.print(" ");
-        for (int i = 1; i <= seats; i++) {
-            System.out.print(" " + i);
-        }
-        // Print rows
-        System.out.println();
-        for (int i = 0; i < rows; i++) {
-            System.out.print(i + 1 + " ");
-            for (int j = 0; j < seats; j++) {
-                System.out.print("S ");
-            }
-            System.out.println();
-        }
+        printSeats(rows, seats);
 
         System.out.println();
 
@@ -39,15 +28,11 @@ public class CinemaRoomManager {
          * These numbers represent the coordinates of the seat according to which the program should print the ticket price.
          */
         System.out.println("Enter a row number:");
-        int rowNumber = input.nextInt();
+        rowNumber = input.nextInt();
         System.out.println("Enter a seat number in that row:");
-        int seatNumber = input.nextInt();
+        seatNumber = input.nextInt();
 
-        if (rowNumber <= 4) {
-            System.out.println("Ticket price: $10");
-        } else {
-            System.out.println("Ticket price: $8");
-        }
+        determineTicketPrice(rowNumber);
 
         // Print seat arrangement with bought seats(s).
         System.out.println("Cinema:");
@@ -77,6 +62,35 @@ public class CinemaRoomManager {
 
         // Print total income.
         System.out.println("Total income:\n$" + totalIncome);
+    }
+
+    // A method that determines the price of tickets.
+    public static void determineTicketPrice(int rowNumber) {
+        if (rowNumber <= 4) {
+            System.out.println("Ticket price: $10");
+        } else {
+            System.out.println("Ticket price: $8");
+        }
+    }
+
+    // A method that prints a regular seating arrangement.
+    public static void printSeats(int rows, int seats) {
+        // Print seat arrangement.
+        System.out.println("Cinema:");
+        // Print seat numbers.
+        System.out.print(" ");
+        for (int i = 1; i <= seats; i++) {
+            System.out.print(" " + i);
+        }
+        // Print rows
+        System.out.println();
+        for (int i = 0; i < rows; i++) {
+            System.out.print(i + 1 + " ");
+            for (int j = 0; j < seats; j++) {
+                System.out.print("S ");
+            }
+            System.out.println();
+        }
     }
     // A method that determines the regular and discounted prices for tickets and figures out the total income.
     public static int findTotalIncome(int rows, int seats) {
