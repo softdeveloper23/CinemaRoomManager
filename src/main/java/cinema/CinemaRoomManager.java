@@ -8,11 +8,7 @@ public class CinemaRoomManager {
 
         Scanner input = new Scanner(System.in);
         // Declare variables.
-        int regularTicketPrice = 10; // Ticket price for front row seats.
-        int discountedTicketPrice = 8; // Ticket price for back row seats.
-        int totalIncome;
-        int seatsFront;
-        int seatsBack;
+        int totalIncome = 0;
 
         // Read two positive integer numbers that represent the number of rows and seats in each row.
         System.out.println("Enter the number of rows:");
@@ -40,10 +36,24 @@ public class CinemaRoomManager {
         /* Read two integer numbers from the input: a row number and a seat number in that row.
          * These numbers represent the coordinates of the seat according to which the program should print the ticket price.
          */
+        System.out.println("Enter a row number:");
         int rowNumber = input.nextInt();
+        System.out.println("Enter a seat number in that row:");
         int seatNumber = input.nextInt();
 
+        totalIncome = findTotalIncome(rows, seats);
+        // Print total income.
+        System.out.println("Total income:\n$" + totalIncome);
+    }
+
+    public static int findTotalIncome(int rows, int seats) {
         // Determine if rows are greater than 4 to apply seat discount.
+        int totalIncome;
+        int seatsFront;
+        int seatsBack;
+        int regularTicketPrice = 10; // Ticket price for front row seats.
+        int discountedTicketPrice = 8; // Ticket price for back row seats.
+
         if (rows <= 4) {
             seatsFront = seats * rows * regularTicketPrice;
             totalIncome = seatsFront;
@@ -56,7 +66,6 @@ public class CinemaRoomManager {
 
             totalIncome = seatsFront + seatsBack;
         }
-        // Print total income.
-        System.out.println("Total income:\n$" + totalIncome);
+        return totalIncome;
     }
 }
