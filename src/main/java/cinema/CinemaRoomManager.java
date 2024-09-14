@@ -9,7 +9,6 @@ public class CinemaRoomManager {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        int totalIncome = 0;
         int rows;
         int seats;
 
