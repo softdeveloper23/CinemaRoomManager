@@ -3,56 +3,50 @@ package cinema;
 import java.util.Scanner;
 
 public class CinemaRoomManager {
+    // Class-level static variable
+    private static String[][] boughtSeatsArray;
 
     public static void main(String[] args) {
-
         Scanner input = new Scanner(System.in);
-        // Declare variables.
+
         int totalIncome = 0;
         int rows;
         int seats;
-        int rowNumber = 0;
-        int seatNumber = 0;
 
-        // Read two positive integer numbers that represent the number of rows and seats in each row.
-        System.out.println("Enter the number of rows:");
+        // Get user input for rows and seats.
+        System.out.print("Enter the number of rows: ");
         rows = input.nextInt();
-        System.out.println("Enter the number of seats in each row:");
+        System.out.print("Enter the number of seats in each row: ");
         seats = input.nextInt();
-        int item;
 
+        // Initialize 2D array size from user input.
+        boughtSeatsArray = new String[rows][seats];
+
+        // Call method to set all seats to "S".
+        initializeSeats(rows, seats);
+
+        // Main loop begins displaying the Cinema menu.
+        int item;
         do {
+            System.out.println("\nCinema Manager Menu:");
+            System.out.println();
             System.out.println("1. Show the seats\n2. Buy a ticket\n0. Exit");
+            System.out.println();
+            System.out.print("Enter your choice: ");
             item = input.nextInt();
 
             switch (item) {
                 case 1:
-                    String[][] boughtSeatsArray = new String[rows][seats];
-                    String[][] newBoughtSeatsArray = new String[rows][seats];
-                    if (rowNumber == 0 && seatNumber == 0) {
-                        printSeats(rows, seats); // Calls a method that prints rows and seats.
-                        System.out.println();
-                    } else {
-                        // Calls a method that prints the rows and seats including the purchased seat(s).
-                        newBoughtSeatsArray = ticketsBought(rows, seats, rowNumber, seatNumber, boughtSeatsArray);
-                        printSeatsBought(rows, seats, rowNumber, seatNumber, newBoughtSeatsArray);
-                    }
-                    break;
-                /* Read two integer numbers from the input: a row number and a seat number in that row.
-                 * These numbers represent the coordinates of the seat according to which the program should print the ticket price.
-                 */
-                case 2:
-                    System.out.println("Enter a row number:");
-                    rowNumber = input.nextInt();
-                    System.out.println("Enter a seat number in that row:");
-                    seatNumber = input.nextInt();
-                    // Calls a method that determines the price of tickets.
-                    determineTicketPrice(rowNumber);
-
+                    printSeats(rows, seats);
                     System.out.println();
-
-
-
+                    break;
+                case 2:
+                    System.out.print("Enter a row number: ");
+                    int rowNumber = input.nextInt();
+                    System.out.print("Enter a seat number in that row: ");
+                    int seatNumber = input.nextInt();
+                    buyTicket(rowNumber, seatNumber);
+                    determineTicketPrice(rowNumber);
                     System.out.println();
                     break;
                 case 0:
@@ -60,12 +54,39 @@ public class CinemaRoomManager {
             }
         } while (item != 0);
 
+        input.close();
+    }
 
-        // Calls method to determine total income.
-        totalIncome = findTotalIncome(rows, seats);
+    // A method that sets all seats (elements) to "S" in the boughtSeatsArray at the start.
+    private static void initializeSeats(int rows, int seats) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < seats; j++) {
+                boughtSeatsArray[i][j] = "S";
+            }
+        }
+    }
 
-        // Print total income.
-        System.out.println("Total income:\n$" + totalIncome);
+    // A method that sets all bought seats (elements) in the boughtSeatsArray to "B".
+    private static void buyTicket(int rowNumber, int seatNumber) {
+        boughtSeatsArray[rowNumber - 1][seatNumber - 1] = "B";
+    }
+
+    // A method that uses the boughtSeatsArray to display the current state of the cinema.
+    public static void printSeats(int rows, int seats) {
+        System.out.println("\nCinema:");
+        System.out.print("  ");
+        // Prints a top row identifying seat numbers.
+        for (int i = 1; i <= seats; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < rows; i++) {
+            System.out.print((i + 1) + " ");
+            for (int j = 0; j < seats; j++) {
+                System.out.print(boughtSeatsArray[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 
     // A method that determines the price of tickets.
@@ -75,84 +96,5 @@ public class CinemaRoomManager {
         } else {
             System.out.println("Ticket price: $8");
         }
-    }
-
-    // A method that prints a regular seating arrangement.
-    public static void printSeats(int rows, int seats) {
-        // Print seat arrangement.
-        System.out.println("Cinema:");
-        // Print seat numbers.
-        System.out.print(" ");
-        for (int i = 1; i <= seats; i++) {
-            System.out.print(" " + i);
-        }
-        // Print rows
-        System.out.println();
-        for (int i = 0; i < rows; i++) {
-            System.out.print(i + 1 + " ");
-            for (int j = 0; j < seats; j++) {
-                System.out.print("S ");
-            }
-            System.out.println();
-        }
-    }
-
-    // A method that determines if a ticket was bought and updates an array
-    public static String[][] ticketsBought(int rows, int seats, int rowNumber, int seatNumber, String[][] seatingArray) {
-        for (int i = 0; i < seats; i++) {
-            for (int j = 0; j < rows; j++) {
-                // Determine if seat is bought (B) or not (S).
-                if (rowNumber == (i + 1) && seatNumber == (j + 1)) {
-                    seatingArray[i][j] = "B";
-                } else {
-                    seatingArray[i][j] = "S";
-                }
-            }
-        }
-        return seatingArray;
-    }
-    // A method that prints the seating arrangement with purchased seats.
-    public static void printSeatsBought(int rows, int seats, int rowNumber, int seatNumber, String[][] newSeatingArray) {
-        // Print seat arrangement with bought seats(s).
-        System.out.println("Cinema:");
-        // Print seat numbers.
-        System.out.print(" ");
-        for (int i = 1; i <= seats; i++) {
-            System.out.print(" " + i);
-        }
-        // Print rows.
-        System.out.println();
-        for (int i = 0; i < rows; i++) {
-            System.out.print(i + 1 + " ");
-            // Print seats in each row.
-            for (int j = 0; j < seats; j++) {
-                System.out.print(newSeatingArray[i][j]);
-            }
-            System.out.println();
-        }
-    }
-
-    // A method that determines the regular and discounted prices for tickets and figures out the total income.
-    public static int findTotalIncome(int rows, int seats) {
-        // Determine if rows are greater than 4 to apply seat discount.
-        int totalIncome;
-        int seatsFront;
-        int seatsBack;
-        int regularTicketPrice = 10; // Ticket price for front row seats.
-        int discountedTicketPrice = 8; // Ticket price for back row seats.
-
-        if (rows <= 4) {
-            seatsFront = seats * rows * regularTicketPrice;
-            totalIncome = seatsFront;
-        } else {
-            int frontRows = rows / 2;
-            int backRows = (rows / 2) + (rows % 2);
-
-            seatsFront = seats * regularTicketPrice * frontRows;
-            seatsBack = seats * discountedTicketPrice * backRows;
-
-            totalIncome = seatsFront + seatsBack;
-        }
-        return totalIncome;
     }
 }
