@@ -11,6 +11,9 @@ public class CinemaRoomManager {
 
         int rows;
         int seats;
+        int ticketsBought = 0;
+        int currentIncome = 0;
+        int totalIncome = 0;
 
         // Get user input for rows and seats.
         System.out.print("Enter the number of rows: ");
@@ -44,12 +47,12 @@ public class CinemaRoomManager {
                     int rowNumber = input.nextInt();
                     System.out.print("Enter a seat number in that row: ");
                     int seatNumber = input.nextInt();
-                    buyTicket(rowNumber, seatNumber);
+                    ticketsBought = buyTicket(rowNumber, seatNumber, ticketsBought);
                     determineTicketPrice(rowNumber);
                     System.out.println();
                     break;
                 case 3:
-                    // Statistics code goes here
+                    statistics(ticketsBought, currentIncome, totalIncome);
                 case 0:
                     break;
             }
@@ -68,8 +71,10 @@ public class CinemaRoomManager {
     }
 
     // A method that sets all bought seats (elements) in the boughtSeatsArray to "B".
-    private static void buyTicket(int rowNumber, int seatNumber) {
+    private static int buyTicket(int rowNumber, int seatNumber, int ticketsBought) {
         boughtSeatsArray[rowNumber - 1][seatNumber - 1] = "B";
+        ticketsBought += 1;
+        return ticketsBought;
     }
 
     // A method that uses the boughtSeatsArray to display the current state of the cinema.
@@ -97,5 +102,14 @@ public class CinemaRoomManager {
         } else {
             System.out.println("Ticket price: $8");
         }
+    }
+
+    // A method that provides statistics.
+    public static void statistics(int ticketsBought, int currentIncome, int totalIncome) {
+
+        System.out.println("Number of purchased tickets: " + ticketsBought);
+        System.out.println("Percentage: ");
+        System.out.println("Current income: " + currentIncome);
+        System.out.println("Total income: " + totalIncome);
     }
 }
