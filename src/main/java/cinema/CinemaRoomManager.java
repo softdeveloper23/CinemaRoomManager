@@ -15,12 +15,14 @@ public class CinemaRoomManager {
         int previousBought = 0;
         int currentIncome = 0;
         int totalIncome = 0;
+        int totalSeats = 0;
 
         // Get user input for rows and seats.
         System.out.print("Enter the number of rows: ");
         rows = input.nextInt();
         System.out.print("Enter the number of seats in each row: ");
         seats = input.nextInt();
+        totalSeats = rows * seats;
 
         // Initialize 2D array size from user input.
         boughtSeatsArray = new String[rows][seats];
@@ -49,13 +51,14 @@ public class CinemaRoomManager {
                         int rowNumber = input.nextInt();
                         System.out.print("Enter a seat number in that row: ");
                         int seatNumber = input.nextInt();
-                        ticketsBought = buyTicket(rowNumber, seatNumber, ticketsBought);
+                        ticketsBought = buyTicket(rowNumber, seatNumber, ticketsBought, currentIncome);
+                        currentIncome = determineTicketPrice(rowNumber, currentIncome, ticketsBought, previousBought);
                     }
                     previousBought = ticketsBought;
                     System.out.println();
                     break;
                 case 3:
-                    statistics(ticketsBought, currentIncome, totalIncome);
+                    statistics(ticketsBought, currentIncome, totalIncome, totalSeats, seats, rows);
                 case 0:
                     break;
             }
@@ -74,7 +77,7 @@ public class CinemaRoomManager {
     }
 
     // A method that sets all bought seats (elements) in the boughtSeatsArray to "B".
-    private static int buyTicket(int rowNumber, int seatNumber, int ticketsBought) {
+    private static int buyTicket(int rowNumber, int seatNumber, int ticketsBought, int currentIncome) {
         if (rowNumber < 1 || rowNumber > boughtSeatsArray.length ||
             seatNumber < 1 || seatNumber > boughtSeatsArray[0].length) {
             System.out.println("Wrong input!");
@@ -91,7 +94,6 @@ public class CinemaRoomManager {
         } else {
             boughtSeatsArray[actualRow][actualSeat] = "B";
             ticketsBought += 1;
-            determineTicketPrice(rowNumber);
             return ticketsBought;
         }
     }
@@ -115,20 +117,40 @@ public class CinemaRoomManager {
     }
 
     // A method that determines the price of tickets.
-    public static void determineTicketPrice(int rowNumber) {
-        if (rowNumber <= 4) {
-            System.out.println("Ticket price: $10");
+    public static int determineTicketPrice(int rowNumber, int currentIncome, int ticketsBought, int previousBought) {
+        if (ticketsBought == previousBought) {
+            return currentIncome;
         } else {
-            System.out.println("Ticket price: $8");
+            if (rowNumber <= 4) {
+                System.out.println("Ticket price: $10");
+                currentIncome += 10;
+            } else {
+                System.out.println("Ticket price: $8");
+                currentIncome += 8;
+            }
+            return currentIncome;
         }
     }
 
     // A method that provides statistics.
-    public static void statistics(int ticketsBought, int currentIncome, int totalIncome) {
+    public static void statistics(int ticketsBought, int currentIncome, int totalIncome, int totalSeats, int seats, int rows) {
 
         System.out.println("Number of purchased tickets: " + ticketsBought);
-        System.out.println("Percentage: ");
-        System.out.println("Current income: " + currentIncome);
-        System.out.println("Total income: " + totalIncome);
+        float percentage = (float) ticketsBought / totalSeats * 100;
+        System.out.printf("Percentage: %.2f%%\n", percentage);
+        System.out.println("Current income: $" + currentIncome);
+        // seats * 4 - totalSeats = leftover seats
+
+        if (rows <= 4) {
+            totalIncome = totalSeats * 10;
+            System.out.println("Total income: $" + totalIncome);
+        } else {
+            int backRow = (totalSeats) - (seats * 4) ;
+            backRow = backRow * 8;
+            int frontRow = seats * 4;
+            frontRow = frontRow * 10;
+            totalIncome = backRow + frontRow;
+            System.out.println("Total income: $" + totalIncome);
+        }
     }
 }
