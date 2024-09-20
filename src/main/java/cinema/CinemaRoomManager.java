@@ -12,6 +12,7 @@ public class CinemaRoomManager {
         int rows;
         int seats;
         int ticketsBought = 0;
+        int previousBought = 0;
         int currentIncome = 0;
         int totalIncome = 0;
 
@@ -43,12 +44,14 @@ public class CinemaRoomManager {
                     System.out.println();
                     break;
                 case 2:
-                    System.out.print("Enter a row number: ");
-                    int rowNumber = input.nextInt();
-                    System.out.print("Enter a seat number in that row: ");
-                    int seatNumber = input.nextInt();
-                    ticketsBought = buyTicket(rowNumber, seatNumber, ticketsBought);
-                    determineTicketPrice(rowNumber);
+                    while (ticketsBought == previousBought) {
+                        System.out.print("Enter a row number: ");
+                        int rowNumber = input.nextInt();
+                        System.out.print("Enter a seat number in that row: ");
+                        int seatNumber = input.nextInt();
+                        ticketsBought = buyTicket(rowNumber, seatNumber, ticketsBought);
+                    }
+                    previousBought = ticketsBought;
                     System.out.println();
                     break;
                 case 3:
@@ -88,6 +91,7 @@ public class CinemaRoomManager {
         } else {
             boughtSeatsArray[actualRow][actualSeat] = "B";
             ticketsBought += 1;
+            determineTicketPrice(rowNumber);
             return ticketsBought;
         }
     }
