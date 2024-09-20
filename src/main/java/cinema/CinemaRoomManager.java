@@ -29,7 +29,7 @@ public class CinemaRoomManager {
         do {
             System.out.println("\nCinema Manager Menu:");
             System.out.println();
-            System.out.println("1. Show the seats\n2. Buy a ticket\n0. Exit");
+            System.out.println("1. Show the seats\n2. Buy a ticket\n3. Statistics\n0. Exit");
             System.out.println();
             System.out.print("Enter your choice: ");
             item = input.nextInt();
@@ -48,6 +48,8 @@ public class CinemaRoomManager {
                     determineTicketPrice(rowNumber);
                     System.out.println();
                     break;
+                case 3:
+                    // Statistics code goes here
                 case 0:
                     break;
             }
