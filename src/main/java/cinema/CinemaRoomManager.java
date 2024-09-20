@@ -72,9 +72,24 @@ public class CinemaRoomManager {
 
     // A method that sets all bought seats (elements) in the boughtSeatsArray to "B".
     private static int buyTicket(int rowNumber, int seatNumber, int ticketsBought) {
-        boughtSeatsArray[rowNumber - 1][seatNumber - 1] = "B";
-        ticketsBought += 1;
-        return ticketsBought;
+        if (rowNumber < 1 || rowNumber > boughtSeatsArray.length ||
+            seatNumber < 1 || seatNumber > boughtSeatsArray[0].length) {
+            System.out.println("Wrong input!");
+            return ticketsBought;
+        }
+
+        // Adjust to 0-based indexing
+        int actualRow = rowNumber - 1;
+        int actualSeat = seatNumber - 1;
+
+        if (boughtSeatsArray[actualRow][actualSeat].equals("B")) {
+            System.out.println("That ticket has already been purchased!");
+            return ticketsBought;
+        } else {
+            boughtSeatsArray[actualRow][actualSeat] = "B";
+            ticketsBought += 1;
+            return ticketsBought;
+        }
     }
 
     // A method that uses the boughtSeatsArray to display the current state of the cinema.
